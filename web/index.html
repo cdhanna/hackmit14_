@@ -4,6 +4,9 @@
     <head>
 
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+		<script src="edit.js"></script>
+
 		<link rel="stylesheet" type="text/css" href="style.css">
     	
     </head>
@@ -20,13 +23,33 @@
     	<script>
     		$(document).ready(function() { 
 			
-    			function update(){
+    			//get data from html
+    			var canvas = document.getElementById('canvas');
+    			var editor = new Editor();
 
-    				//console.log("update");
-
+    			//get the mouse position on the canvas 
+    			function getMousePos( evt){
+    				var rect = canvas.getBoundingClientRect();
+    				return {x:evt.clientX - rect.left, y:evt.clientY - rect.top};
     			}
 
-				setInterval(update, 10);
+    			$('#canvas').on('mousedown', function(e){
+    				
+    				var mousePos = getMousePos(e);
+    				editor.onMouseDown(mousePos);
+    			});
+
+    			$('#canvas').on('mouseup', function(e){
+    				var mousePos = getMousePos(e);
+    				editor.onMouseUp(mousePos);
+    			});
+
+    			// function update(){
+
+
+    			// }
+
+				//setInterval(update, 10);
     		});
     	</script>
 
