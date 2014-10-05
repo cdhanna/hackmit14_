@@ -167,12 +167,12 @@ Visualizer.prototype.getNodeHover = function(node){
 Visualizer.prototype.drawNfa = function(canvas){
 
 	var self = this;
-
+	var ctx = canvas.getContext('2d');
 	this.nfa.nodes.forEach( function(node) {
 		var nodePos = self.nodePosMap[ self.hashNode(node)];
 		if (nodePos != undefined){
 
-			var ctx = canvas.getContext('2d');
+			
 			var red = 255-Math.round(128*self.getNodeHover(node));
 			var green = 255-Math.round(128*self.getNodeHover(node));
 			var blue = 255;//-Math.round(128*self.getNodeHover(node));
@@ -205,9 +205,57 @@ Visualizer.prototype.drawNfa = function(canvas){
 			//ctx.fillStyle = "white";
 			ctx.fill();
 			//alert(nodePos.x + " " + nodePos.y);
-
-			
 		}
 	});
 
+	this.nfa.nodes.forEach( function(node){
+		var nodePos = self.nodePosMap[ self.hashNode(node)];
+		if (nodePos != undefined){
+			node.nextEdges.forEach( function (edge){
+
+				if (edge.next_node != undefined){
+
+					var nextPos = self.getNodePosition(edge.next_node);
+
+
+					var dx = nextPos.x - nodePos.x;
+					var dy = nextPos.y - nodePos.y;
+					var angle = Math.atan2(dy, dx);
+
+					var rx = self.nodeRadius*Math.cos(angle);
+					var ry = self.nodeRadius*Math.sin(angle);
+
+
+
+
+					ctx.beginPath();
+					var arrowX = Math.sin(angle) * 50;
+					var arrowY = Math.cos(angle) * 50;
+					
+					// ctx.moveTo(100.3, 100);
+					// ctx.lineTo(200,200);
+					// ctx.lineTo(100,200);
+
+					 ctx.moveTo((nextPos.x - rx) + arrowX, (nextPos.y - ry) + arrowY);
+					ctx.lineTo(nextPos.x - rx, nextPos.y - ry );
+					 ctx.lineTo((nextPos.x - rx) - arrowX, (nextPos.y - ry) - arrowY);
+					 
+					// 
+					 ctx.closePath();
+					 ctx.fillStyle = '#272822';
+					 ctx.fill();
+
+					ctx.beginPath();
+					ctx.moveTo(nodePos.x + rx, nodePos.y + ry);
+					ctx.bezierCurveTo(nodePos.x, nodePos.y, nextPos.x, nextPos.y, nextPos.x - rx, nextPos.y - ry);
+					ctx.strokeStyle = '#272822';
+					ctx.stroke();
+
+
+
+
+				}
+			});
+		}
+	});
 }
