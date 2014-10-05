@@ -30,7 +30,6 @@ Editor.prototype.generateFrom = function(regexStr){
 Editor.prototype.onMouseDown = function (pos){
 	//console.log('mouse down' + pos);
 
-
 	var clickedNode = this.vs.getNodeAt(pos);
 	if (clickedNode == undefined){
 		var newNode = new Node('fartNode' + (this.nameCounter++));
@@ -41,8 +40,6 @@ Editor.prototype.onMouseDown = function (pos){
 		var option = this.vs.getOptionAt(clickedNode, pos);
 
 		if (option == undefined){
-			
-
 			this.dragOffset = this.vs.getNodePosition(clickedNode);
 			this.dragOffset.x = pos.x - this.dragOffset.x;
 			this.dragOffset.y = pos.y - this.dragOffset.y;
@@ -55,16 +52,14 @@ Editor.prototype.onMouseDown = function (pos){
 			console.log(option.name);
 			this.draggingNode = undefined;
 			this.draggingArrow = clickedNode;
+        } else if(option.name == "set_start") {
+            clickedNode.starting = !clickedNode.starting;
+        } else if(option.name == "set_final") {
+            clickedNode.final = !clickedNode.final;
 		} else if(option.name == "removenode") {
 			this.nfa.remove_node(clickedNode);
-		}
-
-		
+		}		
 	}
-
-
-
-	
 }
 
 //called when a mouseup event is fired on the html canvas
