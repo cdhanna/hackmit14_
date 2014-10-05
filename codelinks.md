@@ -6,3 +6,4 @@ The following are links to collab code files.
 * [STYLE.CSS](http://collabedit.com/9635x)
 * [DFA.JS](http://collabedit.com/479ab)
 * [EDIT.JS](http://collabedit.com/bk9gf)
+* [VISUAL.JS](http://collabedit.com/47dx4)

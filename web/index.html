@@ -2,11 +2,14 @@
 <html>
 
     <head>
-
+    	<title> Delicious DFA </title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-		<script src="edit.js"></script>
 
+		<script src="nfa.js"></script>
+		<script src="edit.js"></script>
+		<script src="visual.js"></script>
+		
 		<link rel="stylesheet" type="text/css" href="style.css">
     	
     </head>
@@ -36,20 +39,20 @@
     			$('#canvas').on('mousedown', function(e){
     				
     				var mousePos = getMousePos(e);
-    				editor.onMouseDown(mousePos);
+    				editor.onMouseDown(mousePos, canvas);
     			});
 
     			$('#canvas').on('mouseup', function(e){
     				var mousePos = getMousePos(e);
-    				editor.onMouseUp(mousePos);
+    				editor.onMouseUp(mousePos, canvas);
     			});
 
-    			// function update(){
+    			 function update(){
 
 
-    			// }
+    			 }
 
-				//setInterval(update, 10);
+				setInterval(update, 10);
     		});
     	</script>
 
