@@ -350,7 +350,22 @@ Visualizer.prototype.drawNfa = function(canvas, scale, offset){
 				
 					ctx.beginPath();
 					ctx.moveTo(nodePos.x + rx, nodePos.y + ry);
-					ctx.bezierCurveTo(nodePos.x, nodePos.y, nextPos.x+2*ry, nextPos.y-2*rx, nextPos.x - rx, nextPos.y - ry);
+					
+					var bx0 = 0;
+					var bx1 = 0;
+					var by0 = 0;
+					var by1 = 0;
+
+					if (edge.next_node == edge.prev_node){
+						bx0 = 80
+						bx1 = -80;
+						by0 = 80;
+						by1 = 80;
+
+					}
+
+					ctx.bezierCurveTo(nodePos.x + bx0, nodePos.y + by0, nextPos.x+bx1, nextPos.y+by1, nextPos.x - rx, nextPos.y - ry);
+					
 					ctx.strokeStyle = '#272822';
 					ctx.stroke();
 					ctx.beginPath();
