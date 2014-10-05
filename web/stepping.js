@@ -1,7 +1,8 @@
 function traverse_now(test_string, nfa) {
     this.activeStates = [];
-    for(var i = 0; i<nfa.nodes; i++){
-        if(nfa.nodes[i].starting == True) {
+    console.log("hello")
+    for(var i = 0; i<nfa.nodes.length; i++){
+        if(nfa.nodes[i].starting == true) {
             this.activeStates.push(nfa.nodes[i]);
         }
     }
@@ -12,22 +13,24 @@ function traverse_now(test_string, nfa) {
     this.tempPlace = 0;
     this.basePlace = 0;
     this.foundState = false; 
-    
+    console.log("Hi2")
     for(var i = 0; i<this.test.length; i++) {
         this.newactivestates = [];
         for(var j = 0; j<this.activeStates.length; j++){
-            for(var k = 0; k<this.activeStates[j].nextEdges; k++){
+            for(var k = 0; k<this.activeStates[j].nextEdges.length; k++){
                 if(this.activeStates[j].nextEdges[k].character == test[i]) {
                     this.newactivestates.push(activeStates[j].nextEdges[k].next_node); 
                     this.foundStates = true;
                 }
                 if(this.activeStates[j].nextEdges[k].character == "eps") {
+                    console.log("eps!")
                     this.activeStates.push(this.activeStates[j].nextEdges[k].next_node); 
                 }
+                console.log("done")
             }
         }
         if(!this.foundStates) {
-            return;
+            return false;
         }
         if(i == this.test.length - 1) {
             for(l = 0; l<this.newactivestates.length; l++){
@@ -41,7 +44,7 @@ function traverse_now(test_string, nfa) {
     }
     
     if(this.doneTraversing){
-        return;
+        return true;
     }
 }
 

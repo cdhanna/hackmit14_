@@ -27,6 +27,11 @@ Editor.prototype.generateFrom = function(regexStr){
 }
 
 Editor.prototype.onKey = function(e){
+
+	if (this.editEdge == undefined){
+		return;
+	}
+
 	//if (this.editEdge != undefined){
 		var key = String.fromCharCode(e.keyCode);
 		key = key.toLowerCase();

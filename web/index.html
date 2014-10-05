@@ -103,8 +103,9 @@
 
                 $('#testbutton').on('click', function(e){
                     var text = document.getElementById('textinp').value;
-                    var active = new traverse_now(text, editor.nfa).newactivestates;
-                    editor.vs.setActiveNodes(active);
+                    var result = traverse_now(text, editor.nfa);
+                   // editor.vs.setActiveNodes(active);
+                    console.log(result);
                 });
 
     			 function update(){
