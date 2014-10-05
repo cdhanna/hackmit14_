@@ -19,7 +19,7 @@ function NodeOption(name, theta, phi){
 }
 
 Visualizer.prototype.hashNode = function(node){
-	return node.name;
+	return node.id;
 }
 
 
@@ -119,15 +119,15 @@ Visualizer.prototype.generatePositions = function(){
 		self.setNodePosition(node, {x:300 + Math.random()*30, y:300+ Math.random()*30});
 	});
 
-	for (var i = 0 ; i < 1 ; i ++){
+	for (var i = 0 ; i < 200 ; i ++){
 
 		this.nfa.nodes.forEach( function(node) {
 			
 			var nodePos = self.getNodePosition(node);
 			var fx = 0;
 			var fy = 0;
-			var k = .001;
-			var goodX = 100;
+			var k = .01;
+			var goodX = 140;
 			self.nfa.nodes.forEach( function(other) {
 				if(other != node) {
 					var otherPos = self.getNodePosition(other);		
@@ -137,7 +137,7 @@ Visualizer.prototype.generatePositions = function(){
 					var force = goodX - dist;
 					fx += k * (force * dx / dist);
 					fy += k * (force * dy / dist);
-					console.log(dx+","+dy+","+dist+","+force);
+					//console.log(dx+","+dy+","+dist+","+force);
 				}
 			});
 
