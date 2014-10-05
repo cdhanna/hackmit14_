@@ -197,14 +197,21 @@ Visualizer.prototype.drawNfa = function(canvas){
 			ctx.arc(nodePos.x, nodePos.y, self.nodeRadius, 0, 2 *Math.PI, false);
 			ctx.fillStyle = "black";
 			ctx.fill();
+			
+
 			ctx.beginPath();
 			ctx.arc(nodePos.x, nodePos.y, self.nodeRadius-3, 0, 2 *Math.PI, false);
-			
 			ctx.fillStyle = "rgba(" + red + "," +green + "," + blue+", 1)";
-
-			//ctx.fillStyle = "white";
 			ctx.fill();
-			//alert(nodePos.x + " " + nodePos.y);
+
+			if (node.starting == true){
+
+				ctx.beginPath();
+				ctx.arc(nodePos.x, nodePos.y, self.nodeRadius*.7, 0, 2*Math.PI, false);
+				ctx.strokeStyle = "black";
+				ctx.stroke();
+			}
+
 		}
 	});
 
@@ -222,36 +229,27 @@ Visualizer.prototype.drawNfa = function(canvas){
 					var dy = nextPos.y - nodePos.y;
 					var angle = Math.atan2(dy, dx);
 
-					var rx = self.nodeRadius*Math.cos(angle);
-					var ry = self.nodeRadius*Math.sin(angle);
-
-
-
-
-					ctx.beginPath();
-					var arrowX = Math.sin(angle) * 50;
-					var arrowY = Math.cos(angle) * 50;
-					
-					// ctx.moveTo(100.3, 100);
-					// ctx.lineTo(200,200);
-					// ctx.lineTo(100,200);
-
-					 ctx.moveTo((nextPos.x - rx) + arrowX, (nextPos.y - ry) + arrowY);
-					ctx.lineTo(nextPos.x - rx, nextPos.y - ry );
-					 ctx.lineTo((nextPos.x - rx) - arrowX, (nextPos.y - ry) - arrowY);
-					 
-					// 
-					 ctx.closePath();
-					 ctx.fillStyle = '#272822';
-					 ctx.fill();
-
+					var rx = (self.nodeRadius+5)*Math.cos(angle);
+					var ry = (self.nodeRadius+5)*Math.sin(angle);
+					var rx2 = (self.nodeRadius)*Math.cos(angle);
+					var ry2 = (self.nodeRadius)*Math.sin(angle);
+					var arrowX = Math.sin(angle) * 5;
+					var arrowY = -Math.cos(angle) * 5;
+				
 					ctx.beginPath();
 					ctx.moveTo(nodePos.x + rx, nodePos.y + ry);
 					ctx.bezierCurveTo(nodePos.x, nodePos.y, nextPos.x, nextPos.y, nextPos.x - rx, nextPos.y - ry);
 					ctx.strokeStyle = '#272822';
 					ctx.stroke();
-
-
+					ctx.beginPath();
+					ctx.moveTo(nextPos.x -rx2, nextPos.y -ry2);
+					ctx.lineTo((nextPos.x - rx) + arrowX, (nextPos.y - ry) + arrowY);
+					ctx.lineTo((nextPos.x - rx) - arrowX, (nextPos.y - ry) - arrowY);
+					ctx.closePath();
+					ctx.stroke();
+					ctx.fillStyle = 'black';
+					ctx.fill();
+					 
 
 
 				}
