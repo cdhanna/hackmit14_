@@ -23,8 +23,10 @@ Visualizer.prototype.getNodeAt = function(pos){
 	this.nfa.nodes.forEach( function(node) {
 		var nodePos = self.nodePosMap[ self.hashNode(node) ];
 		if (nodePos != undefined){
-			var xd = pos.x * nodePos.x;
-			var yd = pos.y * nodePos.y;
+			var xd = pos.x - nodePos.x;
+			xd *= xd;
+			var yd = pos.y - nodePos.y;
+			yd *= yd;
 			var d = Math.sqrt(xd + yd);
 			if (d < 15){
 				answerNode = node;

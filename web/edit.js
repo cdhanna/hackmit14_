@@ -4,12 +4,12 @@ function Editor(){
 
 	this.nfa = new NFA();
 	this.vs = new Visualizer(this.nfa);
-
+	this.draggingNode = undefined;
 }
 
 //called when a mousedown event is fired on the html canvas
 //pos = x:?, y:?
-Editor.prototype.onMouseDown = function (pos, canvas){
+Editor.prototype.onMouseDown = function (pos){
 	//console.log('mouse down' + pos);
 
 
@@ -18,17 +18,29 @@ Editor.prototype.onMouseDown = function (pos, canvas){
 		var newNode = new Node('fart');
 		this.nfa.add_node(newNode);
 		this.vs.setNodePosition(newNode, pos);
+	} else {
+		this.draggingNode = clickedNode;
+		alert('found');
 	}
 
-	this.vs.drawNfa(canvas);
-
+	
 }
 
 //called when a mouseup event is fired on the html canvas
 //pos = x:?, y:?
-Editor.prototype.onMouseUp = function (pos, canvas){
+Editor.prototype.onMouseUp = function (pos){
 	console.log('mouse up' + pos);
+	this.draggingNode = undefined;
+}
+
+Editor.prototype.update = function(pos){
+
+	if (this.draggingNode != undefined){
+		this.vs.setNodePosition(this.draggingNode, pos);
+	}
 
 }
 
-
+Editor.prototype.draw = function(canvas){
+	this.vs.drawNfa(canvas);
+}

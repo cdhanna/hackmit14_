@@ -39,16 +39,22 @@
     			$('#canvas').on('mousedown', function(e){
     				
     				var mousePos = getMousePos(e);
-    				editor.onMouseDown(mousePos, canvas);
+    				editor.onMouseDown(mousePos);
     			});
 
     			$('#canvas').on('mouseup', function(e){
     				var mousePos = getMousePos(e);
-    				editor.onMouseUp(mousePos, canvas);
+    				editor.onMouseUp(mousePos);
     			});
 
-    			 function update(){
+                $('#canvas').on('mousemove', function(e){
+                    var mousePos = getMousePos(e);
+                    editor.update(mousePos);
+                    
+                });
 
+    			 function update(){
+                    editor.draw(canvas);
 
     			 }
 
