@@ -222,5 +222,6 @@ RegexGrapher.prototype.toGraph = function() {
     this.start.starting = true;
     this.start.name = "Start";
     this.end.name = "End";
+    this.end.final = true;
     return this.nfa;
 };

@@ -227,11 +227,19 @@ Visualizer.prototype.drawNfa = function(canvas){
 			ctx.fillStyle = "rgba(" + red + "," +green + "," + blue+", 1)";
 			ctx.fill();
 
-			if (node.starting == true){
+			if (node.final == true){
 
 				ctx.beginPath();
 				ctx.arc(nodePos.x, nodePos.y, self.nodeRadius*.7, 0, 2*Math.PI, false);
 				ctx.strokeStyle = "black";
+				ctx.stroke();
+			}
+
+			if (node.starting == true){
+
+				ctx.beginPath();
+				ctx.arc(nodePos.x, nodePos.y, self.nodeRadius*.7, 0, 2*Math.PI, false);
+				ctx.strokeStyle = "blue";
 				ctx.stroke();
 			}
 
@@ -273,6 +281,12 @@ Visualizer.prototype.drawNfa = function(canvas){
 					ctx.fillStyle = 'black';
 					ctx.fill();
 					 
+					ctx.font='20px Verdana';
+					var tx = nodePos.x + (3*self.nodeRadius)*Math.cos(angle);
+					var ty = nodePos.y + (3*self.nodeRadius)*Math.sin(angle);
+					tx += (1*self.nodeRadius)*Math.sin(angle);
+					ty -= (1*self.nodeRadius)*Math.cos(angle);
+					ctx.fillText(edge.character, tx, ty)
 
 
 				}
@@ -291,4 +305,6 @@ Visualizer.prototype.drawNfa = function(canvas){
 		ctx.stroke();
 	}
 	
+
+
 }
