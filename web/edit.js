@@ -8,6 +8,9 @@ function Editor(){
 	this.hoverNode = undefined;
 	this.nameCounter = 0;
 	this.dragOffset = {x:0, y:0};
+
+	this.draggingEdge = undefined;
+
 }
 
 
@@ -38,6 +41,8 @@ Editor.prototype.onMouseDown = function (pos){
 		var option = this.vs.getOptionAt(clickedNode, pos);
 
 		if (option == undefined){
+			this.vs.setNodePosition(this.draggingNode, pos);
+
 			this.dragOffset = this.vs.getNodePosition(clickedNode);
 			this.dragOffset.x = pos.x - this.dragOffset.x;
 			this.dragOffset.y = pos.y - this.dragOffset.y;
@@ -46,10 +51,11 @@ Editor.prototype.onMouseDown = function (pos){
 			this.hoverNode = clickedNode;
 		} else {
 			console.log(option.name);
+			this.draggingNode = undefined;
+			this.draggingArrow = clickedNode;
 		}
 
-		this.vs.setNodePosition(this.draggingNode, pos);
-
+		
 	}
 
 
@@ -62,6 +68,22 @@ Editor.prototype.onMouseDown = function (pos){
 Editor.prototype.onMouseUp = function (pos){
 	console.log('mouse up' + pos);
 	this.draggingNode = undefined;
+
+	if (this.draggingArrow != undefined){
+
+		var clickedNode = this.vs.getNodeAt(pos);
+		if (clickedNode != undefined){
+
+			var edge = new Edge(this.draggingArrow, '?', clickedNode);
+			console.log(this.nfa);
+			this.draggingArrow.add_next_edge(edge);
+
+		}
+
+
+		
+	}
+	this.draggingArrow = undefined;
 }
 
 Editor.prototype.update = function(pos){
@@ -72,6 +94,12 @@ Editor.prototype.update = function(pos){
 		this.vs.setNodePosition(this.draggingNode, posOff);
 	}
 
+	if (this.draggingArrow != undefined){
+
+		this.vs.setEdgeArrow(this.draggingArrow, pos);
+	} else {
+		this.vs.setEdgeArrow(undefined, pos);
+	}
 
 	this.hoverNode = this.vs.getNodeAt(pos);
 

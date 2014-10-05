@@ -4,7 +4,8 @@ function Visualizer(nfa){
 	this.nodePosMap = {};
 	this.nodeHoverMap = {};
 	this.nodeRadius = 25;
-
+	this.arrowNode = undefined;
+	this.arrowEnd = undefined;
 	this.options = [];
 
 
@@ -179,6 +180,13 @@ Visualizer.prototype.getNodeHover = function(node){
 	} else return undefined;
 }
 
+Visualizer.prototype.setEdgeArrow = function(node, pos){
+
+	this.arrowNode = node;
+	this.arrowEnd = pos;
+
+}
+
 Visualizer.prototype.drawNfa = function(canvas){
 
 	var self = this;
@@ -271,4 +279,16 @@ Visualizer.prototype.drawNfa = function(canvas){
 			});
 		}
 	});
+
+
+	if (this.arrowNode != undefined){
+	
+		var nodePos = this.getNodePosition(this.arrowNode);
+		ctx.beginPath();
+		ctx.moveTo(nodePos.x, nodePos.y);
+		ctx.lineTo(this.arrowEnd.x, this.arrowEnd.y);
+		ctx.strokeStyle = '#542C52';
+		ctx.stroke();
+	}
+	
 }
