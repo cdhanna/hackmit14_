@@ -19,6 +19,18 @@
     
 		<h1 id='title'> Delicious DFA </h1>
 
+        <form id='regexform'>
+            Enter a valid regular expression: <input type="text" id="regexinp">
+            <button type="button" id="regexbutton">Generate NFA</button>
+        </form>
+
+        <script>
+        function makeNFA() {
+            var regexinp = document.getElementById('regexinp').value;
+            new Editor().generateFrom(regexinp);
+        }
+        </script>
+
     	<canvas id='canvas' width='900px' height='600px'>
     		Browser is not supported
     	</canvas>
@@ -51,6 +63,10 @@
                     var mousePos = getMousePos(e);
                     editor.update(mousePos);
 
+                });
+
+                $('#regexbutton').on('click', function(e){
+                    editor.generateFrom(document.getElementById('regexinp').value);
                 });
 
     			 function update(){
