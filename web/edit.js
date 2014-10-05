@@ -32,7 +32,7 @@ Editor.prototype.onKey = function(e){
 		key = key.toLowerCase();
 		if (this.acceptedKeySet.indexOf(key) > -1){
 			editEdge.character = key;
-		} else if (e.keyCode == 46 || e.keycode == 8){
+		} else if (e.keyCode == 46 || e.keyCode == 8){
 			editEdge.prev_node.remove_edge(editEdge);
 			editEdge.next_node.remove_edge(editEdge);
 		} else {
