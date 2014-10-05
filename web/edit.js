@@ -51,10 +51,12 @@ Editor.prototype.onMouseDown = function (pos){
 			this.hoverNode = clickedNode;
 
 			this.vs.setNodePosition(clickedNode, pos);
-		} else {
+		} else if(option.name == "addpair") {
 			console.log(option.name);
 			this.draggingNode = undefined;
 			this.draggingArrow = clickedNode;
+		} else if(option.name == "removenode") {
+			this.nfa.remove_node(clickedNode);
 		}
 
 		
