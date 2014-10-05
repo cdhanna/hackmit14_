@@ -200,22 +200,26 @@ Visualizer.prototype.generatePositions = function(){
 			var s = 300;
 			var goodX = 100;
 			node.nextEdges.forEach( function(other) {
-				var otherPos = self.getNodePosition(other.next_node);		
-				var dx = nodePos.x - otherPos.x;
-				var dy = nodePos.y - otherPos.y;
-				var dist = Math.sqrt(dx * dx + dy * dy);
-				var force = goodX - dist;
-				fx += k * (force * dx / dist);
-				fy += k * (force * dy / dist);
+				if(other != node) {
+					var otherPos = self.getNodePosition(other.next_node);		
+					var dx = nodePos.x - otherPos.x;
+					var dy = nodePos.y - otherPos.y;
+					var dist = Math.sqrt(dx * dx + dy * dy);
+					var force = goodX - dist;
+					fx += k * (force * dx / dist);
+					fy += k * (force * dy / dist);
+				}
 			});
 			node.prevEdges.forEach( function(other) {
-				var otherPos = self.getNodePosition(other.prev_node);		
-				var dx = nodePos.x - otherPos.x;
-				var dy = nodePos.y - otherPos.y;
-				var dist = Math.sqrt(dx * dx + dy * dy);
-				var force = goodX - dist;
-				fx += k * (force * dx / dist);
-				fy += k * (force * dy / dist);
+				if(other != node) {
+					var otherPos = self.getNodePosition(other.prev_node);		
+					var dx = nodePos.x - otherPos.x;
+					var dy = nodePos.y - otherPos.y;
+					var dist = Math.sqrt(dx * dx + dy * dy);
+					var force = goodX - dist;
+					fx += k * (force * dx / dist);
+					fy += k * (force * dy / dist);
+				}
 			});
 			self.nfa.nodes.forEach( function(other) {
 				if(other != node) {

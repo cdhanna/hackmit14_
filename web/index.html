@@ -9,6 +9,7 @@
 		<script src="nfa.js"></script>
 		<script src="edit.js"></script>
 		<script src="visual.js"></script>
+        <script src="stepping.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="style.css">
     	
@@ -22,16 +23,10 @@
 
         <form id='regexform'>
             Enter a valid regular expression: <input type="text" id="regexinp">
-            <button type="button" id="regexbutton">Generate NFA</button>
+            <button type="button" id="regexbutton">Generate NFA</button><br>
+            Enter a string to test: <input type="text" id="textinp">
+            <button type="button" id="testbutton">Test</button>
         </form>
-
-        <script>
-        function makeNFA() {
-            var regexinp = document.getElementById('regexinp').value;
-            new Editor().generateFrom(regexinp);
-        }
-        </script>
-
 
     	<canvas id='canvas' width='900px' height='600px'>
     		Browser is not supported
@@ -104,6 +99,12 @@
                 
                 $('#regexbutton').on('click', function(e){
                     editor.generateFrom(document.getElementById('regexinp').value);
+                });
+
+                $('#testbutton').on('click', function(e){
+                    var text = document.getElementById('textinp').value;
+                    var active = new traverse_now(text, editor.nfa).newactivestates;
+                    editor.vs.setActiveNodes(active);
                 });
 
     			 function update(){

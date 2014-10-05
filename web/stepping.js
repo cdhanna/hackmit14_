@@ -1,51 +1,51 @@
 function traverse_now(test_string, nfa) {
-    activeStates = [];
-    for(i = 0; i<nfa.nodes; i++){
+    this.activeStates = [];
+    for(var i = 0; i<nfa.nodes; i++){
         if(nfa.nodes[i].starting == True) {
-            activeStates.push(nfa.nodes[i]);
+            this.activeStates.push(nfa.nodes[i]);
         }
     }
     
-    doneTraversing = False; 
-    newactivestates = []; 
-    test = test_string.split("");
-    tempPlace = 0;
-    basePlace = 0;
-    foundState = False; 
+    this.doneTraversing = false; 
+    this.newactivestates = []; 
+    this.test = test_string.split("");
+    this.tempPlace = 0;
+    this.basePlace = 0;
+    this.foundState = false; 
     
-    for(i = 0; i<test.length; i++) {
-        (j = 0; j<activeStates.length; j++){
-            (k = 0; k<activeStates[j].nextEdges; k++){
-                if(activeStates[j].nextEdges[k].character == test[i]) {
-                    newactivestates.push(activeStates[j].nextEdges[k].next_node); 
-                    foundStates = True;
+    for(var i = 0; i<this.test.length; i++) {
+        this.newactivestates = [];
+        for(var j = 0; j<this.activeStates.length; j++){
+            for(var k = 0; k<this.activeStates[j].nextEdges; k++){
+                if(this.activeStates[j].nextEdges[k].character == test[i]) {
+                    this.newactivestates.push(activeStates[j].nextEdges[k].next_node); 
+                    this.foundStates = true;
                 }
-                if(activeStates[j].nextEdges[k].character == "eps") {
-                    activeStates.push(activeStates[j].nextEdges[k].next_node); 
-                }
-            }
-        }
-        if(!foundStates) {
-            //not valid string -- do whatever visual output to tell user this!   
-        }
-        if(i == test.length - 1) {
-            for(l = 0; l<newactivestates.length; l++){
-                if(newactivestates[l].final == True){
-                    doneTraversing = True; 
+                if(this.activeStates[j].nextEdges[k].character == "eps") {
+                    this.activeStates.push(this.activeStates[j].nextEdges[k].next_node); 
                 }
             }
         }
-        activeStates = newactivestates; 
-        newactivestates = [];
-        foundStates = False; 
+        if(!this.foundStates) {
+            return;
+        }
+        if(i == this.test.length - 1) {
+            for(l = 0; l<this.newactivestates.length; l++){
+                if(this.newactivestates[l].final == true){
+                    this.doneTraversing = true; 
+                }
+            }
+        }
+        this.activeStates = this.newactivestates; 
+        this.foundStates = false; 
     }
     
-    if(doneTraversing){
-        //valid string -- do whatever visual output ot tell user this!   
+    if(this.doneTraversing){
+        return;
     }
 }
 
-function traverse_one_char(char, activeStates){
+/*function traverse_one_char(char, activeStates){
     activestartstates = [];
     finalstates = [];
     //check for epsiolon transitions
@@ -79,4 +79,4 @@ function traverse_one_char(char, activeStates){
     }
     
     return {active:newactivestates, final: finalStates};
-}
+}*/
