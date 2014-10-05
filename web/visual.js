@@ -1,3 +1,4 @@
+//add option bubbles 
 function Visualizer(nfa){
 
 	this.nfa = nfa;
@@ -12,16 +13,24 @@ function Visualizer(nfa){
 	this.options = [];
 
 
-	this.options.push( new NodeOption("addpair", -Math.PI/7, Math.PI/8));
-	this.options.push( new NodeOption("removenode", 4*Math.PI/7, Math.PI/8));
+	this.options.push( new NodeOption("addpair", -3*Math.PI/2, Math.PI/8, 240, 248, 255));
+	this.options.push( new NodeOption("removenode", -Math.PI/7, Math.PI/8, 249, 204, 204));
+    this.options.push( new NodeOption("set_start", 10*Math.PI/8, Math.PI/8, 255, 252, 255)); 
+    this.options.push( new NodeOption("set_final", 7*Math.PI/8, Math.PI/8, 233, 243, 233));
+    
 }
 
-function NodeOption(name, theta, phi){
+//node option -- option bubble
+function NodeOption(name, theta, phi, r, b, g){
 	this.name = name;
-	this.theta = theta; //angle
-	this.phi = phi;		//theta size
+	this.theta = theta; //angle it sticks out of bubble at (center of bubble)
+	this.phi = phi;		//theta size -- acceptance angle 
+    this.red = r; 
+    this.blue = b; 
+    this.green = g;
 }
 
+//
 Visualizer.prototype.hashNode = function(node){
 	return node.id;
 }
@@ -275,7 +284,7 @@ Visualizer.prototype.drawNfa = function(canvas, scale, offset){
 				ctx.fillStyle = "black";
 				ctx.fill();
 				ctx.beginPath();
-				ctx.fillStyle = "rgba(" + red + "," +green + "," + blue+", 1)";
+				ctx.fillStyle = "rgba(" + option.red + "," + option.green + "," + option.blue+", 1)";
 				ctx.arc(nodePos.x + optX, nodePos.y + optY, (self.nodeRadius * self.getNodeHover(node)*.5)*.9, 0, 2 *Math.PI, false);
 				ctx.fill();
 
@@ -297,15 +306,15 @@ Visualizer.prototype.drawNfa = function(canvas, scale, offset){
 
 				ctx.beginPath();
 				ctx.arc(nodePos.x, nodePos.y, self.nodeRadius*.7, 0, 2*Math.PI, false);
-				ctx.strokeStyle = "black";
+				ctx.strokeStyle = "green";
 				ctx.stroke();
 			}
 
 			if (node.starting == true){
 
 				ctx.beginPath();
-				ctx.arc(nodePos.x, nodePos.y, self.nodeRadius*.7, 0, 2*Math.PI, false);
-				ctx.strokeStyle = "blue";
+				ctx.arc(nodePos.x, nodePos.y, self.nodeRadius*.5, 0, 2*Math.PI, false);
+				ctx.strokeStyle = "red";
 				ctx.stroke();
 			}
 
