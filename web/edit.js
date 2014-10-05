@@ -5,6 +5,7 @@ function Editor(){
 	this.nfa = new NFA();
 	this.vs = new Visualizer(this.nfa);
 	this.draggingNode = undefined;
+	this.nameCounter = 0;
 }
 
 //called when a mousedown event is fired on the html canvas
@@ -15,12 +16,12 @@ Editor.prototype.onMouseDown = function (pos){
 
 	var clickedNode = this.vs.getNodeAt(pos);
 	if (clickedNode == undefined){
-		var newNode = new Node('fart');
+		var newNode = new Node('fartNode' + (this.nameCounter++));
 		this.nfa.add_node(newNode);
 		this.vs.setNodePosition(newNode, pos);
 	} else {
 		this.draggingNode = clickedNode;
-		alert('found');
+
 	}
 
 	
@@ -42,5 +43,7 @@ Editor.prototype.update = function(pos){
 }
 
 Editor.prototype.draw = function(canvas){
+	canvas.width = canvas.width;
 	this.vs.drawNfa(canvas);
+
 }
