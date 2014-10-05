@@ -103,9 +103,11 @@
 
                 $('#testbutton').on('click', function(e){
                     var text = document.getElementById('textinp').value;
-                    var result = traverse_now(text, editor.nfa);
-                   // editor.vs.setActiveNodes(active);
-                    console.log(result);
+
+                    var active = traverse_now(text, editor.nfa);
+                    console.log(active);
+                    editor.vs.setActiveNodes(active);
+
                 });
 
     			 function update(){
@@ -120,7 +122,7 @@
     		});
     	</script>
         
-        <div style="float: left; padding: 0px 90px;">
+        <div style="left: 110; float: left; padding: 0px 90px;">
             <img src="untitled.png" alt="" />
         </div> 
             

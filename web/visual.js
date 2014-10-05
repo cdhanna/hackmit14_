@@ -305,7 +305,7 @@ Visualizer.prototype.drawNfa = function(canvas, scale, offset){
 			ctx.fill();
 			
 			if (self.activeNodes.indexOf(node) > -1){
-				red=255;
+				blue=0;
 			}
 			ctx.beginPath();
 			ctx.arc(nodePos.x, nodePos.y, self.nodeRadius-3, 0, 2 *Math.PI, false);

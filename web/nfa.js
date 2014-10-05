@@ -34,6 +34,7 @@ function Node(name) {
     this.name = name;
     this.nextEdges = [];
     this.prevEdges = []; 
+    this.visited = false; 
 }
 
 Node.id = 0;
