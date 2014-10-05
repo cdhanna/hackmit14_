@@ -50,13 +50,16 @@
                 $('#canvas').on('mousemove', function(e){
                     var mousePos = getMousePos(e);
                     editor.update(mousePos);
-                    
+
                 });
 
     			 function update(){
                     editor.draw(canvas);
-
+                    editor.updateNormal();
     			 }
+
+
+                 editor.generateFrom("a|b");
 
 				setInterval(update, 10);
     		});
