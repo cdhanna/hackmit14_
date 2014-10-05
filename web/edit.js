@@ -47,6 +47,9 @@ Editor.prototype.onMouseDown = function (pos){
 		} else {
 			console.log(option.name);
 		}
+
+		this.vs.setNodePosition(this.draggingNode, pos);
+
 	}
 
 
