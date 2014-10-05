@@ -8,9 +8,9 @@ function Editor(){
 	this.hoverNode = undefined;
 	this.nameCounter = 0;
 	this.dragOffset = {x:0, y:0};
-
+	this.editEdge = undefined;
+	this.hoverEdge = undefined;
 	this.draggingEdge = undefined;
-
 }
 
 
@@ -25,18 +25,32 @@ Editor.prototype.generateFrom = function(regexStr){
 
 }
 
+Editor.prototype.onKey = function(key){
+	if (editEdge != undefined){
+		editEdge.character = key;
+	}
+	this.vs.edgeEditing = undefined;
+	editEdge = undefined;
+}
+
 //called when a mousedown event is fired on the html canvas
 //pos = x:?, y:?
 Editor.prototype.onMouseDown = function (pos){
 	//console.log('mouse down' + pos);
 
-
+	this.vs.edgeEditing = undefined;
 	var clickedNode = this.vs.getNodeAt(pos);
-	if (clickedNode == undefined){
+	var clickedEdge = this.vs.getEdgeAt(pos);
+	if (clickedEdge != undefined){
+		editEdge = clickedEdge;
+		this.vs.edgeEditing = editEdge;
+		console.log("cliked on edge");
+	} else if (clickedNode == undefined && editEdge == undefined){
 		var newNode = new Node('fartNode' + (this.nameCounter++));
 		this.nfa.add_node(newNode);
 		this.vs.setNodePosition(newNode, pos);
 	} else {
+		editEdge = undefined;
 
 		var option = this.vs.getOptionAt(clickedNode, pos);
 
@@ -63,7 +77,7 @@ Editor.prototype.onMouseDown = function (pos){
 	}
 
 
-
+	
 	
 }
 
@@ -106,6 +120,7 @@ Editor.prototype.update = function(pos){
 	}
 
 	this.hoverNode = this.vs.getNodeAt(pos);
+	this.hoverEdge = this.vs.getEdgeAt(pos);
 
 }
 
@@ -113,6 +128,11 @@ Editor.prototype.updateNormal = function(){
 	this.vs.noNodesHovering();
 	if (this.hoverNode != undefined){
 		this.vs.setNodeHover(this.hoverNode, 1);
+	}
+
+	this.vs.noEdgesHovering();
+	if (this.hoverEdge != undefined){
+		this.vs.setEdgeHover(this.hoverEdge, 1);
 	}
 }
 

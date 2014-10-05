@@ -70,7 +70,7 @@
 
                 $(document).on('keydown', function(e){
                     var k = String.fromCharCode(e.keyCode);
-                    console.log(k);
+                    editor.onKey(k);
                 });
 
                 $('#canvas').on('mousewheel', function(e){

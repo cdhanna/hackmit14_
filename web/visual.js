@@ -3,10 +3,12 @@ function Visualizer(nfa){
 	this.nfa = nfa;
 	this.nodePosMap = {};
 	this.nodeHoverMap = {};
+	this.edgeHoverMap = {};
 	this.edgePosMap = {};
 	this.nodeRadius = 25;
 	this.arrowNode = undefined;
 	this.arrowEnd = undefined;
+	this.edgeEditing = undefined;
 	this.options = [];
 
 
@@ -50,21 +52,28 @@ Visualizer.prototype.getNodePosition = function (node){
 Visualizer.prototype.getEdgeAt = function(pos){
 	var answerEdge = undefined;
 	var self = this;
-	this.nfa.nodes.nextEdges.forEach( function(edge){
-		var edgePos = self.getEdgePosition(edge);
-		if (edgePos != undefined){
-			var xd = pos.x - edgePos.x;
-			xd *= xd;
-			var yd = pos.y - edgePos.y;
-			yd *= yd;
-			var d = Math.sqrt(xd + yd);
-			if (d < self.nodeRadius*.5){
-				answerEdge = edge;
+	this.nfa.nodes.forEach(function(node){
+
+		node.nextEdges.forEach( function(edge){
+			var edgePos = self.getEdgePosition(edge);
+			if (edgePos != undefined){
+				var xd = pos.x - edgePos.x;
+				xd *= xd;
+				var yd = pos.y - edgePos.y;
+				yd *= yd;
+				var d = Math.sqrt(xd + yd);
+				if (d < self.nodeRadius*.8){
+					answerEdge = edge;
+				}
+
+
 			}
+		});
 
-
-		}
 	});
+	return answerEdge;
+
+	
 }
 
 Visualizer.prototype.getOptionAt = function(node, pos){
@@ -145,6 +154,19 @@ Visualizer.prototype.noNodesHovering = function(){
 	});
 }
 
+Visualizer.prototype.noEdgesHovering = function(){
+	var self = this;
+	this.nfa.nodes.forEach( function(node){
+		node.nextEdges.forEach( function(edge){
+			if (self.edgeHoverMap[self.hashEdge(edge)] == undefined){
+				self.edgeHoverMap[self.hashEdge(edge)] = 0;
+			} else {
+				self.setEdgeHover(edge, self.getEdgeHover(edge)*.9);
+			}
+		});
+	});
+}
+
 Visualizer.prototype.generatePositions = function(){
 
 	var self = this;
@@ -209,6 +231,15 @@ Visualizer.prototype.setNodeHover = function(node, value){
 Visualizer.prototype.getNodeHover = function(node){
 	if (this.nodeHoverMap[this.hashNode(node)] != undefined){
 		return this.nodeHoverMap[this.hashNode(node)];
+	} else return undefined;
+}
+
+Visualizer.prototype.setEdgeHover = function(edge, value){
+	this.edgeHoverMap[ this.hashEdge(edge)]=value;
+}
+Visualizer.prototype.getEdgeHover = function(edge){
+	if (this.edgeHoverMap[this.hashEdge(edge)] != undefined){
+		return this.edgeHoverMap[this.hashEdge(edge)];
 	} else return undefined;
 }
 
@@ -316,11 +347,22 @@ Visualizer.prototype.drawNfa = function(canvas, scale, offset){
 					ctx.fillStyle = 'black';
 					ctx.fill();
 					 
+
+
+					var red = 64-Math.round(32*self.getEdgeHover(edge));
+					var green = 64-Math.round(32*self.getEdgeHover(edge));
+					var blue = 64+Math.round(140*self.getEdgeHover(edge));
+
+					if (self.edgeEditing != undefined && self.edgeEditing == edge){
+						red = 255;
+					}
+
 					ctx.font='20px Verdana';
 					var tx = nodePos.x + (3*self.nodeRadius)*Math.cos(angle);
 					var ty = nodePos.y + (3*self.nodeRadius)*Math.sin(angle);
 					tx += (1*self.nodeRadius)*Math.sin(angle);
 					ty -= (1*self.nodeRadius)*Math.cos(angle);
+					ctx.fillStyle = "rgba(" + red + "," +green + "," + blue+", 1)";
 					ctx.fillText(edge.character, tx, ty)
 					self.setEdgePosition(edge, {x:tx, y:ty});
 
