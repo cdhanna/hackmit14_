@@ -27,6 +27,11 @@ Editor.prototype.generateFrom = function(regexStr){
 }
 
 Editor.prototype.onKey = function(e){
+    
+    if (this.editEdge == undefined){
+        return;
+    }
+    
 	//if (this.editEdge != undefined){
 		var key = String.fromCharCode(e.keyCode);
 		key = key.toLowerCase();
@@ -58,7 +63,7 @@ Editor.prototype.onMouseDown = function (pos){
 		editEdge = clickedEdge;
 		this.vs.edgeEditing = editEdge;
 		console.log("cliked on edge");
-	} else if (clickedNode == undefined && editEdge == undefined){
+	} else if (clickedNode == undefined){
 		var newNode = new Node('fartNode' + (this.nameCounter++));
 		this.nfa.add_node(newNode);
 		this.vs.setNodePosition(newNode, pos);

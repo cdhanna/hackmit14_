@@ -103,7 +103,8 @@
 
                 $('#testbutton').on('click', function(e){
                     var text = document.getElementById('textinp').value;
-                    var active = new traverse_now(text, editor.nfa).newactivestates;
+                    var active = traverse_now(text, editor.nfa);
+                    console.log(active);
                     editor.vs.setActiveNodes(active);
                 });
 
@@ -119,7 +120,7 @@
     		});
     	</script>
         
-        <div style="float: left; padding: 0px 90px;">
+        <div style="left: 110; float: left; padding: 0px 90px;">
             <img src="untitled.png" alt="" />
         </div> 
             
