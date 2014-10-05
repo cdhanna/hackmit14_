@@ -11,7 +11,7 @@ function Visualizer(nfa){
 	this.arrowEnd = undefined;
 	this.edgeEditing = undefined;
 	this.options = [];
-
+	this.activeNodes = [];
 
 	this.options.push( new NodeOption("addpair", -3*Math.PI/2, Math.PI/8, 240, 248, 255));
 	this.options.push( new NodeOption("removenode", -Math.PI/7, Math.PI/8, 249, 204, 204));
@@ -28,6 +28,12 @@ function NodeOption(name, theta, phi, r, b, g){
     this.red = r; 
     this.blue = b; 
     this.green = g;
+}
+
+Visualizer.prototype.setActiveNodes = function(activeNodes){
+
+	this.activeNodes = activeNodes.slice();
+
 }
 
 //
@@ -296,7 +302,9 @@ Visualizer.prototype.drawNfa = function(canvas, scale, offset){
 			ctx.fillStyle = "black";
 			ctx.fill();
 			
-
+			if (self.activeNodes.indexOf(node) > -1){
+				red=255;
+			}
 			ctx.beginPath();
 			ctx.arc(nodePos.x, nodePos.y, self.nodeRadius-3, 0, 2 *Math.PI, false);
 			ctx.fillStyle = "rgba(" + red + "," +green + "," + blue+", 1)";

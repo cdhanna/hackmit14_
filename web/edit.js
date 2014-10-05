@@ -11,6 +11,7 @@ function Editor(){
 	this.editEdge = undefined;
 	this.hoverEdge = undefined;
 	this.draggingEdge = undefined;
+	this.acceptedKeySet = "abcdefghijklmnopqrstuvwxyz0123456789";
 }
 
 
@@ -27,7 +28,14 @@ Editor.prototype.generateFrom = function(regexStr){
 
 Editor.prototype.onKey = function(key){
 	if (editEdge != undefined){
-		editEdge.character = key;
+		key = key.toLowerCase();
+		if (this.acceptedKeySet.indexOf(key) > -1){
+			editEdge.character = key;
+		} else {
+			editEdge.character = "eps";
+		}
+
+
 	}
 	this.vs.edgeEditing = undefined;
 	editEdge = undefined;
