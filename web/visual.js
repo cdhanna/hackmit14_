@@ -3,6 +3,7 @@ function Visualizer(nfa){
 	this.nfa = nfa;
 	this.nodePosMap = {};
 	this.nodeHoverMap = {};
+	this.edgePosMap = {};
 	this.nodeRadius = 25;
 	this.arrowNode = undefined;
 	this.arrowEnd = undefined;
@@ -22,7 +23,18 @@ function NodeOption(name, theta, phi){
 Visualizer.prototype.hashNode = function(node){
 	return node.id;
 }
+Visualizer.prototype.hashEdge = function(edge){
+	return edge.prev_node.id + "_" + edge.next_node.id;
+}
 
+
+Visualizer.prototype.setEdgePosition = function(edge, pos){
+	this.edgePosMap[ this.hashEdge(edge)] = pos;
+}
+
+Visualizer.prototype.getEdgePosition = function(edge){
+	return this.edgePosMap[ this.hashEdge(edge)];
+}
 
 //sets the position of a node to x, y (given through pos)
 Visualizer.prototype.setNodePosition = function (node, pos){
@@ -33,6 +45,26 @@ Visualizer.prototype.getNodePosition = function (node){
 	if (this.nodePosMap[this.hashNode(node)] == undefined)
 		return {x:0, y: 0}
 	return this.nodePosMap[this.hashNode(node)]
+}
+
+Visualizer.prototype.getEdgeAt = function(pos){
+	var answerEdge = undefined;
+	var self = this;
+	this.nfa.nodes.nextEdges.forEach( function(edge){
+		var edgePos = self.getEdgePosition(edge);
+		if (edgePos != undefined){
+			var xd = pos.x - edgePos.x;
+			xd *= xd;
+			var yd = pos.y - edgePos.y;
+			yd *= yd;
+			var d = Math.sqrt(xd + yd);
+			if (d < self.nodeRadius*.5){
+				answerEdge = edge;
+			}
+
+
+		}
+	});
 }
 
 Visualizer.prototype.getOptionAt = function(node, pos){
@@ -187,10 +219,13 @@ Visualizer.prototype.setEdgeArrow = function(node, pos){
 
 }
 
-Visualizer.prototype.drawNfa = function(canvas){
+Visualizer.prototype.drawNfa = function(canvas, scale, offset){
 
 	var self = this;
 	var ctx = canvas.getContext('2d');
+	ctx.translate(offset.x, offset.y);
+	ctx.scale(scale.x, scale.y);
+
 	this.nfa.nodes.forEach( function(node) {
 		var nodePos = self.nodePosMap[ self.hashNode(node)];
 		if (nodePos != undefined){
@@ -287,7 +322,7 @@ Visualizer.prototype.drawNfa = function(canvas){
 					tx += (1*self.nodeRadius)*Math.sin(angle);
 					ty -= (1*self.nodeRadius)*Math.cos(angle);
 					ctx.fillText(edge.character, tx, ty)
-
+					self.setEdgePosition(edge, {x:tx, y:ty});
 
 				}
 			});

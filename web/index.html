@@ -19,6 +19,8 @@
     
 		<h1 id='title'> Delicious DFA </h1>
 
+        <p> Enter some regex, yo</p>
+
     	<canvas id='canvas' width='900px' height='600px'>
     		Browser is not supported
     	</canvas>
@@ -30,10 +32,23 @@
     			var canvas = document.getElementById('canvas');
     			var editor = new Editor();
 
+                var scale = {x:1, y: 1};
+                var offset = {x: 0, y: 0};
+
     			//get the mouse position on the canvas 
     			function getMousePos( evt){
     				var rect = canvas.getBoundingClientRect();
-    				return {x:evt.clientX - rect.left, y:evt.clientY - rect.top};
+    				var m= {x:evt.clientX - rect.left, y:evt.clientY - rect.top};
+                    
+                    m.x -= offset.x;
+                    m.y -= offset.y;
+
+                    m.x /= scale.x;
+                    m.y /= scale.y;
+
+                    
+
+                    return m;
     			}
 
     			$('#canvas').on('mousedown', function(e){
@@ -53,17 +68,39 @@
 
                 });
 
+                $(document).on('keydown', function(e){
+                    var k = String.fromCharCode(e.keyCode);
+                    console.log(k);
+                });
+
+                $('#canvas').on('mousewheel', function(e){
+                    
+                    var delta = (e.originalEvent.wheelDelta/120);
+                    delta *= .05;
+                    scale.x += delta;
+                    scale.y += delta;
+                    if (scale.x < .2) scale.x = .2;
+                    if (scale.y < .2) scale.y = .2;
+
+                    var rect = canvas.getBoundingClientRect();
+                    var m= {x:e.clientX - rect.left, y:e.clientY - rect.top};
+                    // m.x /= scale.x;
+                    // m.y /= scale.y;
+                    offset = m;
+                });
+
     			 function update(){
-                    editor.draw(canvas);
+                    editor.draw(canvas, scale, offset);
                     editor.updateNormal();
     			 }
 
 
-                 editor.generateFrom("ab|c");
+                 editor.generateFrom("bd");
 
 				setInterval(update, 10);
     		});
     	</script>
+
 
 
     </body>

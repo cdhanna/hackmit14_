@@ -114,8 +114,8 @@ Editor.prototype.updateNormal = function(){
 	}
 }
 
-Editor.prototype.draw = function(canvas){
+Editor.prototype.draw = function(canvas, scale, offset){
 	canvas.width = canvas.width;
-	this.vs.drawNfa(canvas);
+	this.vs.drawNfa(canvas, scale, offset);
 
 }
