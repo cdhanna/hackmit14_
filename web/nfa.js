@@ -27,11 +27,15 @@ NFA.prototype.make_starting_node = function(node) {
 
 //A node is a state inside an NFA. A node has edges connecting it to other nodes (states)
 function Node(name) {
+    this.id = Node.id;
+    Node.id += 1;
     this.starting = false;
     this.name = name;
     this.nextEdges = [];
     this.prevEdges = []; 
 }
+
+Node.id = 0;
 
 Node.prototype.add_next_edge = function(edge) {
     //add next edge to current node

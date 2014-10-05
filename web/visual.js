@@ -119,22 +119,26 @@ Visualizer.prototype.generatePositions = function(){
 		self.setNodePosition(node, {x:300 + Math.random()*30, y:300+ Math.random()*30});
 	});
 
-	for (var i = 0 ; i < 40 ; i ++){
+	for (var i = 0 ; i < 1 ; i ++){
 
 		this.nfa.nodes.forEach( function(node) {
 			
 			var nodePos = self.getNodePosition(node);
 			var fx = 0;
 			var fy = 0;
-			var k = .01;
+			var k = .001;
 			var goodX = 100;
 			self.nfa.nodes.forEach( function(other) {
-				
-				var otherPos = self.getNodePosition(other);		
-				
-				fx += -k * (goodX-Math.abs(otherPos.x - nodePos.x))
-				fy += -k * (goodX-Math.abs(otherPos.y - nodePos.y))
-
+				if(other != node) {
+					var otherPos = self.getNodePosition(other);		
+					var dx = nodePos.x - otherPos.x;
+					var dy = nodePos.y - otherPos.y;
+					var dist = Math.sqrt(dx * dx + dy * dy);
+					var force = goodX - dist;
+					fx += k * (force * dx / dist);
+					fy += k * (force * dy / dist);
+					console.log(dx+","+dy+","+dist+","+force);
+				}
 			});
 
 
