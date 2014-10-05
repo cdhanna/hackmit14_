@@ -380,6 +380,7 @@ Visualizer.prototype.drawNfa = function(canvas, scale, offset){
 					tx += (1*self.nodeRadius)*Math.sin(angle);
 					ty -= (1*self.nodeRadius)*Math.cos(angle);
 					ctx.fillStyle = "rgba(" + red + "," +green + "," + blue+", 1)";
+                    ctx.font = "13pt sans-serif";
 					ctx.fillText(edge.character, tx, ty)
 					self.setEdgePosition(edge, {x:tx, y:ty});
 
