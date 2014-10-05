@@ -41,7 +41,7 @@ Editor.prototype.onMouseDown = function (pos){
 		var option = this.vs.getOptionAt(clickedNode, pos);
 
 		if (option == undefined){
-			this.vs.setNodePosition(this.draggingNode, pos);
+			
 
 			this.dragOffset = this.vs.getNodePosition(clickedNode);
 			this.dragOffset.x = pos.x - this.dragOffset.x;
@@ -49,6 +49,8 @@ Editor.prototype.onMouseDown = function (pos){
 			
 			this.draggingNode = clickedNode;
 			this.hoverNode = clickedNode;
+
+			this.vs.setNodePosition(clickedNode, pos);
 		} else {
 			console.log(option.name);
 			this.draggingNode = undefined;
