@@ -9,15 +9,15 @@ NFA.prototype.add_node = function(node) {
 }
 
 NFA.prototype.remove_node = function(node) {
-    var i = nodes.indexOf(node);
+    var i = this.nodes.indexOf(node);
     if(i >= 0) {        
         for(var k = 0; k < node.prevEdges.length; k++) {
-            node.remove_edge(prevEdges[k]);
+            node.remove_edge(node.prevEdges[k]);
         }
         for(var j = 0; j < node.nextEdges.length; j++) {
-            node.remove_edge(nextEdges[j]); 
+            node.remove_edge(node.nextEdges[j]); 
         }
-        nodes.splice(i,1); 
+        this.nodes.splice(i,1); 
     }
 }
 
@@ -47,11 +47,11 @@ Node.prototype.add_next_edge = function(edge) {
 
 Node.prototype.remove_edge = function(edge) {   
     //remove nextedge
-    var i = nextEdges.indexOf(edge);
-    if(i >= 0) nextEdges.splice(i, 1);
+    var i = this.nextEdges.indexOf(edge);
+    if(i >= 0) this.nextEdges.splice(i, 1);
     
-    var j = edge.next_node.nextEdges.indexOf(edge);
-    if(j >= 0) edge.next_node.nextEdges.splice(j, 1);
+    var j = edge.prev_node.nextEdges.indexOf(edge);
+    if(j >= 0) edge.prev_node.nextEdges.splice(j, 1);
 }
 
 //edge between nodes. The to_node will be reached on the character

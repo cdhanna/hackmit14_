@@ -10,7 +10,7 @@ function Visualizer(nfa){
 
 
 	this.options.push( new NodeOption("addpair", -Math.PI/7, Math.PI/8));
-
+	this.options.push( new NodeOption("removenode", 4*Math.PI/7, Math.PI/8));
 }
 
 function NodeOption(name, theta, phi){
