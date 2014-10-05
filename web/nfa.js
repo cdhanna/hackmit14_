@@ -30,6 +30,7 @@ function Node(name) {
     this.id = Node.id;
     Node.id += 1;
     this.starting = false;
+    this.final = false; 
     this.name = name;
     this.nextEdges = [];
     this.prevEdges = []; 
