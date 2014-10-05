@@ -124,29 +124,11 @@
                     
                     count+=1;
                     
-                    var win = undefined;
-                    
                     if (as.length == 0 && count < text.length){
-                      //pass 
-                        win = false;
+                      editor.vs.msg = "FAIL";   
                     } else 
                     if (count == text.length){
-                        
-                     as = traverse_now(']', as);
-                     as.forEach( function(node){
-                        if (node.final == true){
-                            win = true;
-                        }
-                     });
-                      //editor.vs.msg = "PASS"; 
-                        if (!win)
-                            win = false;
-                    }
-                    
-                    if (win){
-                       editor.vs.msg = "PASS"; 
-                    } else {
-                        editor.vs.msg = "FREE FISH"; 
+                      editor.vs.msg = "PASS";   
                     }
                     
                    // var 
