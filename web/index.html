@@ -101,12 +101,59 @@
                     editor.generateFrom(document.getElementById('regexinp').value);
                 });
 
+                var count = 0;
+                var as = [];
+                var lastText="";
                 $('#testbutton').on('click', function(e){
                     var text = document.getElementById('textinp').value;
-
-                    var active = traverse_now(text, editor.nfa);
-                    console.log(active);
-                    editor.vs.setActiveNodes(active);
+                    
+                    if (text != lastText){
+                        lastText = text;
+                        count =0;
+                        editor.vs.msg = "";
+                    }
+                    
+                    clearVisisted(editor.nfa);
+                    var test = text.split("");
+                    
+                    if (count == 0){
+                        as = init(editor.nfa);
+                        console.log('dfgdfgdfg' +as);
+                    } 
+                    as = traverse_now(test[count], as);
+                    
+                    count+=1;
+                    
+                    var win = undefined;
+                    
+                    if (as.length == 0 && count < text.length){
+                      //pass 
+                        win = false;
+                    } else 
+                    if (count == text.length){
+                        
+                     as = traverse_now(']', as);
+                     as.forEach( function(node){
+                        if (node.final == true){
+                            win = true;
+                        }
+                     });
+                      //editor.vs.msg = "PASS"; 
+                        if (!win)
+                            win = false;
+                    }
+                    
+                    if (win){
+                       editor.vs.msg = "PASS"; 
+                    } else {
+                        editor.vs.msg = "FREE FISH"; 
+                    }
+                    
+                   // var 
+                   // var active = 
+                    
+                    console.log(as);
+                    editor.vs.setActiveNodes(as);
 
                 });
 

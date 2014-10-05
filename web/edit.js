@@ -29,27 +29,28 @@ Editor.prototype.generateFrom = function(regexStr){
 Editor.prototype.onKey = function(e){
 
 	if (this.editEdge == undefined){
+        //console.log("undefined editedge");
 		return;
 	}
-
 
 	//if (this.editEdge != undefined){
 		var key = String.fromCharCode(e.keyCode);
 		key = key.toLowerCase();
 		if (this.acceptedKeySet.indexOf(key) > -1){
-			editEdge.character = key;
+			this.editEdge.character = key;
 		} else if (e.keyCode == 46 || e.keyCode == 8){
-			editEdge.prev_node.remove_edge(editEdge);
-			editEdge.next_node.remove_edge(editEdge);
+			this.editEdge.prev_node.remove_edge(this.editEdge);
+			this.editEdge.next_node.remove_edge(this.editEdge);
 		} else {
-			editEdge.character = "eps";
+			this.editEdge.character = "eps";
 		}
 		console.log(key);
 
 	//}
 	this.vs.edgeEditing = undefined;
-	editEdge = undefined;
+	this.editEdge = undefined;
 }
+
 
 //called when a mousedown event is fired on the html canvas
 //pos = x:?, y:?
@@ -61,15 +62,15 @@ Editor.prototype.onMouseDown = function (pos){
 	var clickedNode = this.vs.getNodeAt(pos);
 	var clickedEdge = this.vs.getEdgeAt(pos);
 	if (clickedEdge != undefined){
-		editEdge = clickedEdge;
-		this.vs.edgeEditing = editEdge;
+		this.editEdge = clickedEdge;
+		this.vs.edgeEditing = this.editEdge;
 		console.log("cliked on edge");
 	} else if (clickedNode == undefined){
 		var newNode = new Node('fartNode' + (this.nameCounter++));
 		this.nfa.add_node(newNode);
 		this.vs.setNodePosition(newNode, pos);
 	} else {
-		editEdge = undefined;
+		//editEdge = undefined;
 
 		var option = this.vs.getOptionAt(clickedNode, pos);
 

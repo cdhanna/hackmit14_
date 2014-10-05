@@ -10,6 +10,7 @@ function Visualizer(nfa){
 	this.arrowNode = undefined;
 	this.arrowEnd = undefined;
 	this.edgeEditing = undefined;
+    this.msg = "";
 	this.options = [];
 	this.activeNodes = [];
 
@@ -417,6 +418,11 @@ Visualizer.prototype.drawNfa = function(canvas, scale, offset){
 		ctx.stroke();
 	}
 	
-
+    ctx.font='20px Verdana';
+    var tx = 10;
+    var ty = 200;
+    ctx.fillStyle = "darkslategray";
+    ctx.font = "70pt sans-serif";
+    ctx.fillText(this.msg, tx, ty)
 
 }

@@ -45,21 +45,30 @@
 //    }
 //}
 
-function traverse_now(test_string, nfa) {
+function clearVisisted(nfa) {
+    for(var i = 0; i<nfa.nodes.length; i++){
+        nfa.nodes[i].visited = false;
+    }   
+}
 
-    this.activeStates = [];
-    console.log("hello")
+function init(nfa) {
+    var activeStates = [];
     for(var i = 0; i<nfa.nodes.length; i++){
         if(nfa.nodes[i].starting == true) {
-            this.activeStates.push(nfa.nodes[i]);
-
+            activeStates.push(nfa.nodes[i]);
         }
-    }
-    console.log('init ' + activeStates);
-    var test = test_string.split("");
+        nfa.nodes[i].visited = false;
+    }   
+    return activeStates; 
+}
+
+function traverse_now(c, activeStates) {
+    var newActive = [];
+    
+    //var test = test_string.split("");
 
     for(var i = 0; i<activeStates.length; i++){
-        newActive = newActive.concat(travel(test[0], activeStates[i]));     
+        newActive = newActive.concat(travel(c, activeStates[i]));     
     }
     
     return newActive;   
@@ -67,24 +76,27 @@ function traverse_now(test_string, nfa) {
 
 function travel(c, n) {
     var activelist = [];
-    if(!n.visited) {
+    
         for(var i = 0; i<n.nextEdges.length; i++) {
+            console.log(n.starting);
             if(n.nextEdges[i].character == "eps") {
-                 n.nextEdges[i].visited = true;
-                 activelist = activelist.concat(travel(n.nextEdges[i].next_node));
+                if(!n.nextEdges[i].next_node.visited) {
+                     n.nextEdges[i].next_node.visited = true;
+                     activelist = activelist.concat(travel(c, n.nextEdges[i].next_node));
+                }
             }
             console.log("hi");
             if(n.nextEdges[i].character == c) {
-                console.log('got ' + c);
-                n.nextEdges[i].visited = true; 
-                activelist = activelist.concat(n.nextEdges[i].next_node)
+                if(!n.nextEdges[i].next_node.visited) {
+                    console.log('got ' + c);
+                    n.nextEdges[i].next_node.visited = true; 
+                    activelist = activelist.concat(n.nextEdges[i].next_node)
+                }
             }
         }
         console.log('final ' + activelist);
         return activelist;
 
-    }
-    return activelist; 
 }
 
 
