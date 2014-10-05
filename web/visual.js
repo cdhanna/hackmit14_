@@ -31,9 +31,7 @@ function NodeOption(name, theta, phi, r, b, g){
 }
 
 Visualizer.prototype.setActiveNodes = function(activeNodes){
-
 	this.activeNodes = activeNodes.slice();
-
 }
 
 //
@@ -352,7 +350,7 @@ Visualizer.prototype.drawNfa = function(canvas, scale, offset){
 				
 					ctx.beginPath();
 					ctx.moveTo(nodePos.x + rx, nodePos.y + ry);
-					ctx.bezierCurveTo(nodePos.x, nodePos.y, nextPos.x, nextPos.y, nextPos.x - rx, nextPos.y - ry);
+					ctx.bezierCurveTo(nodePos.x, nodePos.y, nextPos.x+2*ry, nextPos.y-2*rx, nextPos.x - rx, nextPos.y - ry);
 					ctx.strokeStyle = '#272822';
 					ctx.stroke();
 					ctx.beginPath();
