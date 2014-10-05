@@ -26,17 +26,21 @@ Editor.prototype.generateFrom = function(regexStr){
 
 }
 
-Editor.prototype.onKey = function(key){
-	if (editEdge != undefined){
+Editor.prototype.onKey = function(e){
+	//if (this.editEdge != undefined){
+		var key = String.fromCharCode(e.keyCode);
 		key = key.toLowerCase();
 		if (this.acceptedKeySet.indexOf(key) > -1){
 			editEdge.character = key;
+		} else if (e.keyCode == 46 || e.keyCode == 8){
+			editEdge.prev_node.remove_edge(editEdge);
+			editEdge.next_node.remove_edge(editEdge);
 		} else {
 			editEdge.character = "eps";
 		}
+		console.log(key);
 
-
-	}
+	//}
 	this.vs.edgeEditing = undefined;
 	editEdge = undefined;
 }

@@ -31,9 +31,7 @@ function NodeOption(name, theta, phi, r, b, g){
 }
 
 Visualizer.prototype.setActiveNodes = function(activeNodes){
-
 	this.activeNodes = activeNodes.slice();
-
 }
 
 //
@@ -200,22 +198,26 @@ Visualizer.prototype.generatePositions = function(){
 			var s = 300;
 			var goodX = 100;
 			node.nextEdges.forEach( function(other) {
-				var otherPos = self.getNodePosition(other.next_node);		
-				var dx = nodePos.x - otherPos.x;
-				var dy = nodePos.y - otherPos.y;
-				var dist = Math.sqrt(dx * dx + dy * dy);
-				var force = goodX - dist;
-				fx += k * (force * dx / dist);
-				fy += k * (force * dy / dist);
+				if(other != node) {
+					var otherPos = self.getNodePosition(other.next_node);		
+					var dx = nodePos.x - otherPos.x;
+					var dy = nodePos.y - otherPos.y;
+					var dist = Math.sqrt(dx * dx + dy * dy);
+					var force = goodX - dist;
+					fx += k * (force * dx / dist);
+					fy += k * (force * dy / dist);
+				}
 			});
 			node.prevEdges.forEach( function(other) {
-				var otherPos = self.getNodePosition(other.prev_node);		
-				var dx = nodePos.x - otherPos.x;
-				var dy = nodePos.y - otherPos.y;
-				var dist = Math.sqrt(dx * dx + dy * dy);
-				var force = goodX - dist;
-				fx += k * (force * dx / dist);
-				fy += k * (force * dy / dist);
+				if(other != node) {
+					var otherPos = self.getNodePosition(other.prev_node);		
+					var dx = nodePos.x - otherPos.x;
+					var dy = nodePos.y - otherPos.y;
+					var dist = Math.sqrt(dx * dx + dy * dy);
+					var force = goodX - dist;
+					fx += k * (force * dx / dist);
+					fy += k * (force * dy / dist);
+				}
 			});
 			self.nfa.nodes.forEach( function(other) {
 				if(other != node) {
@@ -352,7 +354,22 @@ Visualizer.prototype.drawNfa = function(canvas, scale, offset){
 				
 					ctx.beginPath();
 					ctx.moveTo(nodePos.x + rx, nodePos.y + ry);
-					ctx.bezierCurveTo(nodePos.x, nodePos.y, nextPos.x, nextPos.y, nextPos.x - rx, nextPos.y - ry);
+					
+					var bx0 = 0;
+					var bx1 = 0;
+					var by0 = 0;
+					var by1 = 0;
+
+					if (edge.next_node == edge.prev_node){
+						bx0 = 80
+						bx1 = -80;
+						by0 = 80;
+						by1 = 80;
+
+					}
+
+					ctx.bezierCurveTo(nodePos.x + bx0, nodePos.y + by0, nextPos.x+bx1, nextPos.y+by1, nextPos.x - rx, nextPos.y - ry);
+					
 					ctx.strokeStyle = '#272822';
 					ctx.stroke();
 					ctx.beginPath();
