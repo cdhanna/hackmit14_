@@ -120,15 +120,22 @@
                         as = init(editor.nfa);
                         console.log('dfgdfgdfg' +as);
                     } 
-                    as = traverse_now(test[count], as);
+                    as = traverse_now(test[count], as, (count == text.length-1));
                     
                     count+=1;
                     
-                    if (as.length == 0 && count < text.length){
+                    if (as.length == 0){
                       editor.vs.msg = "FAIL";   
                     } else 
-                    if (count == text.length){
-                      editor.vs.msg = "PASS";   
+                    if (count == text.length ){
+                        var boo = false;
+                        as.forEach( function(node) {
+                            if(node.final) { boo = true; return; }
+                        });
+                        if(boo) {
+                        editor.vs.msg = "PASS";
+                        }
+                        else {editor.vs.msg = "FAIL:(";}
                     }
                     
                    // var 

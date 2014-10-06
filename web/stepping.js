@@ -62,19 +62,19 @@ function init(nfa) {
     return activeStates; 
 }
 
-function traverse_now(c, activeStates) {
+function traverse_now(c, activeStates, tf) {
     var newActive = [];
     
     //var test = test_string.split("");
 
     for(var i = 0; i<activeStates.length; i++){
-        newActive = newActive.concat(travel(c, activeStates[i]));     
+        newActive = newActive.concat(travel(c, activeStates[i], tf));     
     }
     
     return newActive;   
 }
 
-function travel(c, n) {
+function travel(c, n, tf) {
     var activelist = [];
     
         for(var i = 0; i<n.nextEdges.length; i++) {
@@ -82,9 +82,11 @@ function travel(c, n) {
             if(n.nextEdges[i].character == "eps") {
                 if(!n.nextEdges[i].next_node.visited) {
                      n.nextEdges[i].next_node.visited = true;
-                     activelist = activelist.concat(travel(c, n.nextEdges[i].next_node));
+                     if(tf){console.log("bam");}
+                     activelist = activelist.concat(travel(c, n.nextEdges[i].next_node, tf));
                 }
             }
+            if(!tf) {
             console.log("hi");
             if(n.nextEdges[i].character == c) {
                 if(!n.nextEdges[i].next_node.visited) {
@@ -92,6 +94,15 @@ function travel(c, n) {
                     n.nextEdges[i].next_node.visited = true; 
                     activelist = activelist.concat(n.nextEdges[i].next_node)
                 }
+            }
+            }
+            else {
+            if(n.nextEdges[i].next_node.final || n.final || n.nextEdges[i].character == c) {
+                    console.log('got ' + c);
+                    n.nextEdges[i].next_node.visited = true; 
+                    activelist = activelist.concat(n.nextEdges[i].next_node)
+                
+            }
             }
         }
         console.log('final ' + activelist);
